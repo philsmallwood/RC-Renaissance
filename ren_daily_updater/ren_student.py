@@ -18,7 +18,7 @@ from rcadinfoexport import ad_info_export #Self Created Module
 #Load Env File
 load_dotenv()
 #Output File
-localUpFilePath = getenv('studentUploadFile')
+localUpFilePath = getenv('StudentUploadFile')
 #AD Variables
 DCServer = getenv('DCServer')
 BindAccount = getenv('BindAccount')
