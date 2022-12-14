@@ -2,6 +2,8 @@
 ###Renaissance Student File Script
 ###Script to create a file with student info
 ###to upload to Renaissance
+###Pulls data from Active Directory
+###Requires self-created module rcadinfoexport
 
 ###Import Modules###
 import ldap3 as ld
