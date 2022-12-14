@@ -30,10 +30,12 @@ df_final = pd.DataFrame()
 with ZipFile(classlinkZip, 'r') as zip:
     zip.extract(classlinkUserFile,classlinkPath)
 #Read User File into a Dataframe
-df_userFile = pd.read_csv(classlinkUserFileExtracted, dtype=str)
-#Keep only the Admin, Teacher, and Student users for comparison later
-#All the rest will have been added by previous run of this script
-df_teachers = df_userFile.loc[(df_userFile['role'] == 'teacher')]
+df_userFile = pd.read_csv(classlinkUserFileExtracted, dtype=str, \
+    skiprows = 1, header=None)
+#Keep only the Teachers
+df_teachers = df_userFile.loc[(df_userFile[5] == 'teacher')]
+#Drop 'fake' accounts
+df_teachers = df_teachers[~df_teachers[12].str.contains("test")]
 ########
 
 ###Format Dataframe###
@@ -44,7 +46,7 @@ df_final['SMIDDLE'] = df_teachers[10]
 df_final['TLAST'] = df_teachers[9]
 df_final['TGENDER'] = ''
 df_final['TPOSITION'] = ''
-df_final['TUSERNAME'] = df_teachers[6]
+df_final['TUSERNAME'] = df_teachers[12]
 df_final['PASSWORD'] = getenv('FakePassword')
 ########
 
