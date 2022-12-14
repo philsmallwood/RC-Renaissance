@@ -44,30 +44,34 @@ DCConnection = ad_connection(DCServer,BindAccount,BindPass)
 df_ADStudentInfo = ad_info_export(DCConnection,SearchBase,Attributes,SearchScope,SearchFilter)
 #Reset Index
 df_ADStudentInfo.reset_index(drop=True, inplace=True)
+#Drop Student Records with Missing Building
+df_ADStudentInfo[Attributes[6]].replace('', 'DROP', inplace=True)
+df_ADStudentInfo = df_ADStudentInfo[~df_ADStudentInfo[Attributes[6]].str.contains("DROP")]
 ########
 
 ###Format Dataframe###
-df_final['SID'] = df_ADStudentInfo['employeeID']
-df_final['SSTATEID'] = df_ADStudentInfo['employeeID']
-df_final['SFIRST'] = df_ADStudentInfo['givenName']
-df_final['SMIDDLE'] = df_ADStudentInfo['initials']
-df_final['SLAST'] = df_ADStudentInfo['sn']
-df_final['SGRADE'] = df_ADStudentInfo['title']
-df_final['SGENDER'] = df_ADStudentInfo['extensionAttribute9']
-df_final['SBIRTHDAY'] = df_ADStudentInfo['extensionAttribute1']
+df_final['SID'] = df_ADStudentInfo[Attributes[0]]
+df_final['SSTATEID'] = df_ADStudentInfo[Attributes[0]]
+df_final['SFIRST'] = df_ADStudentInfo[Attributes[4]]
+df_final['SMIDDLE'] = df_ADStudentInfo[Attributes[5]]
+df_final['SLAST'] = df_ADStudentInfo[Attributes[3]]
+df_final['SGRADE'] = df_ADStudentInfo[Attributes[9]]
+df_final['SGENDER'] = df_ADStudentInfo[Attributes[8]]
+df_final['SBIRTHDAY'] = df_ADStudentInfo[Attributes[7]]
 df_final['RACE'] = ''
 df_final['SLANGUAGE'] = ''
-df_final['SCHARACTERISTICS'] = ''
-df_final['SUSERNAME'] = df_ADStudentInfo['userPrincipalName']
-df_final['SPASSWORD'] = df_ADStudentInfo['employeeID']
+df_final['SUSERNAME'] = df_ADStudentInfo[Attributes[2]]
+df_final['SPASSWORD'] = df_ADStudentInfo[Attributes[0]]
 ########					
 
 ###Add SpecEd info###
 #Read Spec Ed File into Dataframe
-df_specEdAll = pd.read_csv('SpecEdFile')
+df_specEdAll = pd.read_csv(SpecEdFile, encoding='cp1252', skiprows=1, header=None )
 #Get Necessary Info for Final
-df_specEdInfo['SID'] = df_specEdAll['ID']
-df_specEdInfo['SCHARACTERISTICS'] = df_specEdAll['SpecEd Code']
+df_specEdInfo['SID'] = df_specEdAll[3].astype(str)
+df_specEdInfo['SID'] = df_specEdInfo['SID'].str.zfill(6)
+df_specEdInfo['SCHARACTERISTICS'] = df_specEdAll[16].astype(str)
+df_specEdInfo = df_specEdInfo[~df_specEdInfo['SCHARACTERISTICS'].str.contains("nan")]
 #Combine Spec ED info Final
 df_final = df_final.merge(df_specEdInfo[['SID', 'SCHARACTERISTICS']], \
     on = 'SID', how = 'left')
