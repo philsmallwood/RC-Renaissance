@@ -34,9 +34,13 @@ SearchFilter = '(&(objectCategory=person)(objectClass=user)\
 Attributes = getenv('StudentADAttributes').split(',')
 #Spec Ed File
 SpecEdFile = getenv('SpecEdFile')
+#Schools with Ren Licenses
+LicensedSchools = getenv('LicensedSchools').split(",")
 #Empty DataFrames
+df_licensedSchoolsStudents = pd.DataFrame()
 df_specEdInfo = pd.DataFrame()
-df_final = pd.DataFrame()
+df_specEd = pd.DataFrame()
+df_licensedSchools = pd.DataFrame()
 #######
 
 ###Get Info from AD###
@@ -51,32 +55,51 @@ df_ADStudentInfo[Attributes[6]].replace('', 'DROP', inplace=True)
 df_ADStudentInfo = df_ADStudentInfo[~df_ADStudentInfo[Attributes[6]].str.contains("DROP")]
 ########
 
-###Format Dataframe###
-df_final['SID'] = df_ADStudentInfo[Attributes[0]]
-df_final['SSTATEID'] = df_ADStudentInfo[Attributes[0]]
-df_final['SFIRST'] = df_ADStudentInfo[Attributes[4]]
-df_final['SMIDDLE'] = df_ADStudentInfo[Attributes[5]]
-df_final['SLAST'] = df_ADStudentInfo[Attributes[3]]
-df_final['SGRADE'] = df_ADStudentInfo[Attributes[9]]
-df_final['SGENDER'] = df_ADStudentInfo[Attributes[8]]
-df_final['SBIRTHDAY'] = df_ADStudentInfo[Attributes[7]]
-df_final['RACE'] = ''
-df_final['SLANGUAGE'] = ''
-df_final['SUSERNAME'] = df_ADStudentInfo[Attributes[2]]
-df_final['SPASSWORD'] = df_ADStudentInfo[Attributes[0]]
-########					
+###Students for Ren Licensed Schools###
+for School in LicensedSchools:
+    df = df_ADStudentInfo.loc[(df_ADStudentInfo[Attributes[6]] == School)]
+    df_licensedSchoolsStudents = pd.concat([df_licensedSchoolsStudents, df])
+#df_licensedSchoolsStudents = df_ADStudentInfo.loc[(df_ADStudentInfo[Attributes[6]] == LicensedSchool1) | \
+#    (df_ADStudentInfo[Attributes[6]] == LicensedSchool2)]
+########   
 
-###Add SpecEd info###
+###Add Info to Temp Dataframes###
+for pair in [(df_licensedSchools, df_licensedSchoolsStudents), \
+    (df_specEd, df_ADStudentInfo)]:
+    df = pair[0]
+    source = pair[1]
+    df['SID'] = source[Attributes[0]]
+    df['SSTATEID'] = source[Attributes[0]]
+    df['SFIRST'] = source[Attributes[4]]
+    df['SMIDDLE'] = source[Attributes[5]]
+    df['SLAST'] = source[Attributes[3]]
+    df['SGRADE'] = source[Attributes[9]]
+    df['SGENDER'] = source[Attributes[8]]
+    df['SBIRTHDAY'] = source[Attributes[7]]
+    df['RACE'] = ''
+    df['SLANGUAGE'] = ''
+    df['SUSERNAME'] = source[Attributes[2]]
+    df['SPASSWORD'] = source[Attributes[0]]
+########
+				
+
+###Spec Ed Students###
 #Read Spec Ed File into Dataframe
-df_specEdAll = pd.read_csv(SpecEdFile, encoding='cp1252', skiprows=1, header=None )
+df_specEdFile = pd.read_csv(SpecEdFile, encoding='cp1252', skiprows=1, header=None )
 #Get Necessary Info for Final
-df_specEdInfo['SID'] = df_specEdAll[3].astype(str)
+df_specEdInfo['SID'] = df_specEdFile[3].astype(str)
 df_specEdInfo['SID'] = df_specEdInfo['SID'].str.zfill(6)
-df_specEdInfo['SCHARACTERISTICS'] = df_specEdAll[16].astype(str)
+df_specEdInfo['SCHARACTERISTICS'] = df_specEdFile[16].astype(str)
 df_specEdInfo = df_specEdInfo[~df_specEdInfo['SCHARACTERISTICS'].str.contains("nan")]
-#Combine Spec ED info Final
-df_final = df_final.merge(df_specEdInfo[['SID', 'SCHARACTERISTICS']], \
+#Combine Spec ED info Temp SpecEd DataFrame
+df_specEd = df_specEd.merge(df_specEdInfo[['SID', 'SCHARACTERISTICS']], \
     on = 'SID', how = 'left')
+#Drop
+df_specEd = df_specEd[df_specEd['SCHARACTERISTICS'].notna()]
+########
+
+###Cleanup###
+df_final = pd.concat([df_specEd, df_licensedSchools])
 ########
 
 ###Export Final File###
