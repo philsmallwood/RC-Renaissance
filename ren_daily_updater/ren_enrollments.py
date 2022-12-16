@@ -22,6 +22,8 @@ classlinkPath = getenv('ClasslinkExportPath')
 classlinkZip = getenv('classlinkZipFile')
 classlinkEnrollmentsFile = getenv('classlinkEnrollmentsFile')
 classlinkEnrollmentsFileExtracted = getenv('classlinkEnrollmentsFileExtracted')
+#Schools with Ren Licenses
+LicensedSchools = getenv('LicensedSchools').split(",")
 #Empty DataFrames
 df_final = pd.DataFrame()
 #######
@@ -44,6 +46,8 @@ df_final['Student_id'] = df_studentenrollments[5]
 #Cleanup Section ID
 df_final['Section_id'] = df_final['Section_id'].str.split("-").str[0]
 df_final['Section_id'] = df_final['Section_id'].str.split("_").str[1]
-#
+#Drop Uneeded Enrollments
 df_final = df_final[df_final['Section_id'].str.contains("1000")]
+df_final = df_final[df_final['School_id'].str.contains(LicensedSchools[0]) | \
+        df_final['School_id'].str.contains(LicensedSchools[1]) ]
 ########
