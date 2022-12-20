@@ -80,6 +80,7 @@ for pair in [(df_licensedSchools, df_licensedSchoolsStudents), \
     df['SLANGUAGE'] = ''
     df['SUSERNAME'] = source[Attributes[2]]
     df['SPASSWORD'] = source[Attributes[0]]
+    df['school_id'] = '320' + source[Attributes[6]]
 ########
 				
 
