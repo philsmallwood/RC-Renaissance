@@ -76,6 +76,7 @@ df_specEdTeachers = pd.DataFrame.from_dict(specEdRecords)
 ##Get Needed Parts for Checking
 df_specEdCheck['TFIRST'] = df_specEdTeachers['First Name'].str.lower()
 df_specEdCheck['TLAST'] = df_specEdTeachers['Last Name'].str.lower()
+df_specEdCheck['TPOSITION'] = 'SpecEd'
 ########
 
 ###Create Spec ED Teacher DataFrame###
