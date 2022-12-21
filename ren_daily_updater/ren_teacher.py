@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-###Renaissance Student File Script
-###Script to create a file with student info
+###Renaissance Teacher File Script
+###Script to create a file with teacher info
 ###to upload to Renaissance
 ###Requires exported user file from Classlink
 
