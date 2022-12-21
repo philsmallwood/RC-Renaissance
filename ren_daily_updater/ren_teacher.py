@@ -58,7 +58,6 @@ df_tempStudentInfo['TFIRST'] = df_teachers[8].str.lower()
 df_tempStudentInfo['SMIDDLE'] = df_teachers[10]
 df_tempStudentInfo['TLAST'] = df_teachers[9].str.lower()
 df_tempStudentInfo['TGENDER'] = ''
-df_tempStudentInfo['TPOSITION'] = ''
 df_tempStudentInfo['TUSERNAME'] = df_teachers[12]
 df_tempStudentInfo['PASSWORD'] = getenv('FakePassword')
 df_tempStudentInfo['school_id'] = df_teachers[4]
