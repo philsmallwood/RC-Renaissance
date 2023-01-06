@@ -17,7 +17,8 @@ from oauth2client.service_account import ServiceAccountCredentials
 #Load Env File
 load_dotenv()
 #Output File
-localUpFilePath = getenv('SectionUploadFile')
+LicensedSectionFile = getenv('LicensedSectionUploadFile')
+LicensedEnrollmentFile = getenv('LicensedEnrollmentUploadFile')
 #Data Files
 classlinkPath = getenv('ClasslinkExportPath')
 classlinkZip = getenv('classlinkZipFile')
@@ -37,7 +38,7 @@ colTeacherFile = { 0 : 'TID',
 df_licensedSchoolSections = pd.DataFrame()
 df_licensedSchoolEnrollments = pd.DataFrame()
 df_licensedSchoolSectionsFinal = pd.DataFrame()
-
+df_licensedSchoolEnrollmentFinal = pd.DataFrame()
 
 
 
@@ -100,9 +101,15 @@ df_licensedSchoolSectionsFinal = df_licensedSchoolSectionsFinal.merge(df_teacher
 ########
 
 ###Final Enrollment File
-
+#Generate Student Enrollments Dataframe
+df_studentELAEnrollments = df_licensedSchoolEnrollmentsELA[df_licensedSchoolEnrollmentsELA[6] == 'student']
+#Create Final Enrollment DataFrame
+df_licensedSchoolEnrollmentFinal['School_id'] = df_studentELAEnrollments[4]
+df_licensedSchoolEnrollmentFinal['Section_id'] = df_studentELAEnrollments[3]
+df_licensedSchoolEnrollmentFinal['Student_id'] = df_studentELAEnrollments[5]
 ########
 
 ###Export Final Files###
-
-
+df_licensedSchoolSectionsFinal.to_csv(LicensedSectionFile, index=False)
+df_licensedSchoolEnrollmentFinal.to_csv(LicensedEnrollmentFile, index=False)
+########
