@@ -5,14 +5,12 @@
 ### Requires pandas, keyring, and pysftp
 ###For keyring, need to set the username/password for sftp sites for downloads and uploads
 
-
 ###Import Modules###
 import pysftp
 import keyring
 from os import getenv
 from dotenv import load_dotenv
 #######
-
 
 ###Variables###
 #Load .ENV File
