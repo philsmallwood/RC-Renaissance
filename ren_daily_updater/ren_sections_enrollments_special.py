@@ -20,6 +20,8 @@ FreckleEnrollmentFile = getenv('FreckleEnrollmentUploadFile')
 #Data Files
 classlinkStudentFile = getenv('StudentUploadFile')
 classlinkTeacherFile = getenv('TeacherUploadFile')
+LicensedSectionFile = getenv('LicensedSectionUploadFile')
+LicensedEnrollmentFile = getenv('LicensedEnrollmentUploadFile')
 #Course Name
 courseName = getenv('courseName')
 #Empty DataFrames
@@ -54,8 +56,18 @@ df_specialEnrollments['Section_id'] = df_specEdStudents['school_id'] + '-' + cou
 df_specialEnrollments['Student_id'] = df_specEdStudents['SID']
 #######
 
+###Add Freckle Information to Licensed Information###
+#Read Renaissance Licensed Section 
+#and Enrollment Files into DataFrames
+df_licensedSchoolSections = pd.read_csv(LicensedSectionFile, dtype=str)
+df_licensedSchoolEnrollments = pd.read_csv(LicensedEnrollmentFile, dtype=str)
+#Combine Freckle DataFrames into Licensed DataFrames
+df_mergedSections = pd.concat([df_specialSections,df_licensedSchoolSections])
+df_mergedEnrollments = pd.concat([df_specialEnrollments,df_licensedSchoolEnrollments])
+#######
+
 ###Export Final Files###
-df_specialSections.to_csv(FreckleSectionFile, index=False)
-df_specialEnrollments.to_csv(FreckleEnrollmentFile, index=False)
+df_mergedSections.to_csv(LicensedSectionFile, index=False)
+df_mergedEnrollments.to_csv(LicensedEnrollmentFile, index=False)
 ########
 
