@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 ### Renaissance File Uploader
-### Script to upload files the newest to
-### Titan Nutrition Management System
-### Requires time, pandas, keyring, datetime,
-###pysftp
+### Script to upload files to
+### Renaissance SFTP server
+### Requires pandas, keyring, and pysftp
 ###For keyring, need to set the username/password for sftp sites for downloads and uploads
 
 
