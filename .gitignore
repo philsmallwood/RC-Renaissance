@@ -7,6 +7,9 @@ __pycache__/
 # Secrets
 oauth2service.json
 
+# Virtual Env
+*_env/*
+
 # C extensions
 *.so
 
