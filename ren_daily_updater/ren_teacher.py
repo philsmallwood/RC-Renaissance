@@ -55,7 +55,7 @@ df_teachers = df_teachers[~df_teachers[12].str.contains("test")]
 df_tempStudentInfo['TID'] = df_teachers[0]
 df_tempStudentInfo['TSTATEID'] = ''
 df_tempStudentInfo['TFIRST'] = df_teachers[8].str.lower()
-df_tempStudentInfo['SMIDDLE'] = df_teachers[10]
+df_tempStudentInfo['TMIDDLE'] = df_teachers[10]
 df_tempStudentInfo['TLAST'] = df_teachers[9].str.lower()
 df_tempStudentInfo['TGENDER'] = ''
 df_tempStudentInfo['TUSERNAME'] = df_teachers[12]
@@ -90,7 +90,9 @@ for School in LicensedSchools:
 
 ###Format Final DataFrame###
 df_final = pd.concat([df_specEd,df_licensedSchools])
-df_final['TFIRST'] = df_final['TFIRST'].str.to
+df_final['TFIRST'] = df_final['TFIRST'].str.capitalize()
+df_final['TMIDDLE'] = df_final['TMIDDLE'].str.capitalize()
+df_final['TLAST'] = df_final['TLAST'].str.capitalize()
 ########
     
 ###Export Final File###
