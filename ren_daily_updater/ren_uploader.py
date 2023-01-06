@@ -30,7 +30,7 @@ uploadFiles = [getenv('StudentUploadFile'),
 #######
 
 ###Upload Files to Classlink###
-with pysftp.Connection(host=titanHostname, username=renaissanceUsername, \
+with pysftp.Connection(host=renaissanceHostname, username=renaissanceUsername, \
     password=keyring.get_password(renaissanceServiceName, renaissanceUsername)) as sftp:
     for upFile in uploadFiles:
         sftp.put(upFile,upFile.split('/')[-1])
