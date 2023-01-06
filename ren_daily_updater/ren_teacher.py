@@ -33,7 +33,7 @@ specEdSheetName = getenv('sheetName')
 ########
 #Empty DataFrames
 df_specEdCheck = pd.DataFrame()
-df_tempStudentInfo = pd.DataFrame()
+df_tempTeacherInfo = pd.DataFrame()
 df_licensedSchools = pd.DataFrame()
 df_final = pd.DataFrame()
 #######
@@ -52,15 +52,15 @@ df_teachers = df_teachers[~df_teachers[12].str.contains("test")]
 ########
 
 ###Format Temp Dataframe###
-df_tempStudentInfo['TID'] = df_teachers[0]
-df_tempStudentInfo['TSTATEID'] = ''
-df_tempStudentInfo['TFIRST'] = df_teachers[8].str.lower()
-df_tempStudentInfo['TMIDDLE'] = df_teachers[10]
-df_tempStudentInfo['TLAST'] = df_teachers[9].str.lower()
-df_tempStudentInfo['TGENDER'] = ''
-df_tempStudentInfo['TUSERNAME'] = df_teachers[12]
-df_tempStudentInfo['PASSWORD'] = getenv('FakePassword')
-df_tempStudentInfo['school_id'] = df_teachers[4]
+df_tempTeacherInfo['TID'] = df_teachers[0]
+df_tempTeacherInfo['TSTATEID'] = ''
+df_tempTeacherInfo['TFIRST'] = df_teachers[8].str.lower()
+df_tempTeacherInfo['TMIDDLE'] = df_teachers[10]
+df_tempTeacherInfo['TLAST'] = df_teachers[9].str.lower()
+df_tempTeacherInfo['TGENDER'] = ''
+df_tempTeacherInfo['TUSERNAME'] = df_teachers[12]
+df_tempTeacherInfo['PASSWORD'] = getenv('FakePassword')
+df_tempTeacherInfo['school_id'] = df_teachers[4]
 ########
 
 ###Get Data from Google Sheet###
@@ -79,12 +79,12 @@ df_specEdCheck['TPOSITION'] = 'SpecEd'
 ########
 
 ###Create Spec ED Teacher DataFrame###
-df_specEd = pd.merge(df_tempStudentInfo,df_specEdCheck, how='inner')
+df_specEd = pd.merge(df_tempTeacherInfo,df_specEdCheck, how='inner')
 ########
 
 ###Create Licensed School Teacher DataFrame###
 for School in LicensedSchools:
-    df = df_tempStudentInfo.loc[(df_tempStudentInfo['school_id'] == '320' + School)]
+    df = df_tempTeacherInfo.loc[(df_tempTeacherInfo['school_id'] == '320' + School)]
     df_licensedSchools = pd.concat([df,df_licensedSchools])
 ########
 
