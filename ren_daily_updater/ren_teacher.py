@@ -90,6 +90,7 @@ for School in LicensedSchools:
 
 ###Format Final DataFrame###
 df_final = pd.concat([df_specEd,df_licensedSchools])
+df_final['TFIRST'] = df_final['TFIRST'].str.to
 ########
     
 ###Export Final File###
