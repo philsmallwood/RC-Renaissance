@@ -94,7 +94,7 @@ df_licensedSchoolSectionsFinal['Section_id'] = df_licensedSchoolSectionsCombined
 df_licensedSchoolSectionsFinal['TID'] = df_licensedSchoolSectionsCombined[1]
 df_licensedSchoolSectionsFinal['Course_name'] = df_licensedSchoolSectionsCombined[3].str.rstrip(' -')
 df_licensedSchoolSectionsFinal['SGRADE'] = df_licensedSchoolSectionsCombined[4]
-df_licensedSchoolSectionsFinal['Course_num'] = df_licensedSchoolSectionsCombined[3].str.split(' -').str.get(1)
+df_licensedSchoolSectionsFinal['Course_number'] = df_licensedSchoolSectionsCombined[3].str.split(' -').str.get(1)
 df_licensedSchoolSectionsFinal['Subject'] = 'ELA'
 #Merge Teacher File Info into Final Section DataFrame
 df_licensedSchoolSectionsFinal = df_licensedSchoolSectionsFinal.merge(df_teacherFile[['TID','TFirst','TLast']], on='TID', how='left')
