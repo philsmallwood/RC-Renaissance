@@ -11,12 +11,16 @@
 # ren_uploader.py
 
 ###Import Modules###
+import keyring
+import pysftp
 import time
-import datetime
 from os import getenv
+from pathlib import Path
+import subprocess
+import datetime
 from dotenv import load_dotenv
 from rcmailsend import mail_send #Self Created Module
-#######
+###########
 
 ###Variables###
 #Load .ENV File
@@ -37,41 +41,38 @@ logToEmail = getenv('logToEmail')
 logSubject = 'Renaissance Updater Log'
 logFile = getenv('logFilePath') + "Renaissance-" + Date + ".log"
 ##Function Definitions
-#Function to call a python script and append info to a log file
+#Function to Call Python Script and Append Log Entry
 def pyscript_call(scriptPath,scriptName,logFile):
     #Call a python script
-    os.system("python3 %s" % scriptPath + scriptName)
+    subprocess.run(["python3", scriptPath + scriptName])
     #Write entry to log
-    f = open(logFile, "a")
-    f.write("---\n")
-    f.write("The " + scriptName + " script ran successfully \n")
-    f.write("---\n")
-    f.close()
+    with open(logFile,'a') as a_writer:
+        a_writer.write("---\n")
+        a_writer.write("The " + scriptName + " script ran successfully \n")
+        a_writer.write("---\n")
+#Function to Log Error
 def log_script_error(scriptName,logFile):
-    #Write the Error to the Log
-        ###Log Error
-    f = open(logFile, "a")
-    f.write("---\n")
-    f.write("The " + scriptName + " failed! \n")
-    f.write("---\n")
-    f.close()
+    #Log Error
+    with open(logFile,'a') as a_writer:
+        a_writer.write("---\n")
+        a_writer.write("The " + scriptName + " failed! \n")
+        a_writer.write("---\n")
 ###########
 
 ###Log Begin
-f = open(logFile, "a")
-f.write("------------------\n")
-f.write("The Renaissance Updater Script was started on " + startTime + "\n")
-f.write("---\n")
-f.close()
+with open(logFile,'a') as a_writer:
+    a_writer.write("------------------\n")
+    a_writer.write("The Renaissance Updater Script was started on " + startTime + "\n")
+    a_writer.write("---\n")
+###########
 
-
-for script in scriptList:
+###Call the SubScripts
+for subScript in scriptList:
     try:
-        pyscript_call(scriptPath,script,logFile)
+        pyscript_call(scriptPath,subScript,logFile)
     except:
         log_script_error(script,logFile)
-
-
+###########
 
 ###Email Results###
 mail_send(logToEmail,logSubject,logFile)
