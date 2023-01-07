@@ -27,11 +27,11 @@ Date = CurrentDate.strftime('%m-%d-%Y')
 startTime = time.ctime()
 #Scripts
 scriptPath = getenv('scriptPath')
-studentFileScript = 'ren_student.py'
-teacherFileScript = 'ren_teacher.py'
-licensedSectionEnrollScript = 'ren_sections_enrollments_licensed.py'
-specialSectionEnrollScript = 'ren_sections_enrollments_special.py'
-uploadScript = 'ren_uploader.py'
+scriptList = (
+    'ren_student.py', 'ren_teacher.py',
+    'ren_sections_enrollments_licensed.py',
+    'ren_sections_enrollments_special.py',
+    'ren_uploader.py')
 #Email Vars
 logToEmail = getenv('logToEmail')
 logSubject = 'Renaissance Updater Log'
@@ -64,40 +64,14 @@ f.write("The Renaissance Updater Script was started on " + startTime + "\n")
 f.write("---\n")
 f.close()
 
-###Source Files Downloader###
-try:
-    pyscript_call(scriptPath,sourceFilesScript,logFile)
-except:
-    log_script_error(sourceFilesScript,logFile)
-###########
 
-###Student Updater File Generator###
-try:
-    pyscript_call(scriptPath,studentFileScript,logFile)
-except:
-    log_script_error(studentFileScript,logFile)
-###########
+for script in scriptList:
+    try:
+        pyscript_call(scriptPath,script,logFile)
+    except:
+        log_script_error(script,logFile)
 
-###Direct Certification File Generator###
-try:
-    pyscript_call(scriptPath,directCertScript,logFile)
-except:
-    log_script_error(directCertScript,logFile)
-###########
 
-###Staff Updater File Generator###
-try:
-    pyscript_call(scriptPath,staffFileScript,logFile)
-except:
-    log_script_error(staffFileScript,logFile)
-###########
-
-###Titan File Uploader###
-try:
-    pyscript_call(scriptPath,titanFileUploadScript,logFile)
-except:
-    log_script_error(titanFileUploadScript,logFile)
-###########
 
 ###Email Results###
 mail_send(logToEmail,logSubject,logFile)
