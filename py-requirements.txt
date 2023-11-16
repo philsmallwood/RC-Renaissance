@@ -1,7 +1,6 @@
 #Pip requirements for RC-Renaissance
 pandas
 pysftp
-keyrings.alt
 ldap3
 python-dotenv
 
