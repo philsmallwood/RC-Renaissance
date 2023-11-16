@@ -1,8 +1,6 @@
 ### Renaissance Student File Script: 
 ### Script to create a file with student info
 ### to upload to Renaissance
-### Pulls data from Active Directory
-### Requires self-created module rcadinfoexport
 
 def ren_student_file_generator():
     ###Import Modules###
