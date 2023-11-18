@@ -1,6 +1,5 @@
 #Pip requirements for RC-Renaissance
 pandas
 pysftp
-ldap3
 python-dotenv
-
+rc-google-py
