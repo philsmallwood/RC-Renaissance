@@ -1,73 +1,64 @@
-#!/usr/bin/env python3
-###Renaissance Freckle Section & Enrollments File Script
-###Script to create two files with section and 
-###enrollment info to upload to Renaissance
-###for the Freckle sections
-###Requires exported user file from Classlink
+### Renaissance Freckle Section & Enrollments File Script
+### Script to create two files with section and 
+### enrollment info to upload to Renaissance
+### for the Freckle sections
 
-###Import Modules###
-import pandas as pd
-from os import getenv
-from dotenv import load_dotenv
-#######
+def ren_sections_special(df_teachers):
+    ###Import Modules###
+    import pandas as pd
+    from os import getenv
+    from dotenv import load_dotenv
+    #######
 
-###Variables###
-#Load Env File
-load_dotenv()
-#Output File
-FreckleSectionFile = getenv('FreckleSectionUploadFile')
-FreckleEnrollmentFile = getenv('FreckleEnrollmentUploadFile')
-#Data Files
-classlinkStudentFile = getenv('StudentUploadFile')
-classlinkTeacherFile = getenv('TeacherUploadFile')
-LicensedSectionFile = getenv('LicensedSectionUploadFile')
-LicensedEnrollmentFile = getenv('LicensedEnrollmentUploadFile')
-#Course Name
-courseName = getenv('courseName')
-#Empty DataFrames
-df_specialSections = pd.DataFrame()
-df_specialEnrollments = pd.DataFrame()
-#######
+    ###Variables###
+    #Load Env File
+    load_dotenv()
+    #Course Name
+    courseName = getenv('courseName')
+    #Empty DataFrames
+    df_special_sections = pd.DataFrame()
+    #######
 
-###Freckle Sections###
-#Read Renaissance Teacher File 
-df_teacherFile = pd.read_csv(classlinkTeacherFile, dtype=str)
-#Get SpecED Teachers
-df_specEdTeachers = df_teacherFile.loc[df_teacherFile['TPOSITION'] == 'SpecEd']
-#Format Section Dataframe for Freckle Sections
-df_specialSections['School_id'] = df_specEdTeachers['school_id']
-df_specialSections['Section_id'] = df_specEdTeachers['school_id'] + '-' + courseName
-df_specialSections['TID'] = df_specEdTeachers['TID']
-df_specialSections['TFirst'] = df_specEdTeachers['TFIRST']
-df_specialSections['TLast'] = df_specEdTeachers['TLAST']
-df_specialSections['Course_name'] = courseName
-df_specialSections['Course_number'] = '3299999'
-df_specialSections['Subject'] = 'Other'
-#######
+    ### Freckle Sections ###
+    # Get SpecED Teachers
+    df_spec_ed_teachers = df_teachers.loc[df_teachers['TPOSITION'] == 'SpecEd']
+    #Format Section Dataframe for Freckle Sections
+    df_special_sections['School_id'] = df_spec_ed_teachers['school_id']
+    df_special_sections['Section_id'] = df_spec_ed_teachers['school_id'] + '-' + courseName
+    df_special_sections['TID'] = df_spec_ed_teachers['TID']
+    df_special_sections['TFirst'] = df_spec_ed_teachers['TFIRST']
+    df_special_sections['TLast'] = df_spec_ed_teachers['TLAST']
+    df_special_sections['Course_name'] = courseName
+    df_special_sections['Course_number'] = '3299999'
+    df_special_sections['Subject'] = 'Other'
+    #######
 
-###Freckle Enrollments###
-#Read Renaissance Student File
-df_studentFile = pd.read_csv(classlinkStudentFile, dtype=str)
-#Get SpecEd Students
-df_specEdStudents =  df_studentFile[df_studentFile['SCHARACTERISTICS'].notnull()]
-#Format Enrollment Dataframe for Freckle Sections
-df_specialEnrollments['School_id'] = df_specEdStudents['school_id']
-df_specialEnrollments['Section_id'] = df_specEdStudents['school_id'] + '-' + courseName
-df_specialEnrollments['Student_id'] = df_specEdStudents['SID']
-#######
+    return df_special_sections
+############################################
 
-###Add Freckle Information to Licensed Information###
-#Read Renaissance Licensed Section 
-#and Enrollment Files into DataFrames
-df_licensedSchoolSections = pd.read_csv(LicensedSectionFile, dtype=str)
-df_licensedSchoolEnrollments = pd.read_csv(LicensedEnrollmentFile, dtype=str)
-#Combine Freckle DataFrames into Licensed DataFrames
-df_mergedSections = pd.concat([df_specialSections,df_licensedSchoolSections])
-df_mergedEnrollments = pd.concat([df_specialEnrollments,df_licensedSchoolEnrollments])
-#######
+def ren_enrollments_special(df_students):
+    ### Import Modules ###
+    import pandas as pd
+    from os import getenv
+    from dotenv import load_dotenv
+    #######
 
-###Export Final Files###
-df_mergedSections.to_csv(LicensedSectionFile, index=False)
-df_mergedEnrollments.to_csv(LicensedEnrollmentFile, index=False)
-########
+    ### Variables ###
+    #Load Env File
+    load_dotenv()
+    #Course Name
+    courseName = getenv('courseName')
+    #Empty DataFrames
+    df_special_enrollments = pd.DataFrame()
+    #######
 
+    ### Freckle Enrollments ###
+    #Get SpecEd Students
+    df_spec_ed_students =  df_students[df_students['SCHARACTERISTICS'].notnull()]
+    #Format Enrollment Dataframe for Freckle Sections
+    df_special_enrollments['School_id'] = df_spec_ed_students['school_id']
+    df_special_enrollments['Section_id'] = df_spec_ed_students['school_id'] + '-' + courseName
+    df_special_enrollments['Student_id'] = df_spec_ed_students['SID']
+    #######
+
+    return df_special_enrollments
