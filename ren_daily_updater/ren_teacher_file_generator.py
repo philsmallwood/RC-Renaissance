@@ -55,7 +55,7 @@ def ren_teacher_file_generator(df_users):
     df_spec_ed_check['TFIRST'] = df_spec_ed_tch_sheet['First Name'].str.lower()
     df_spec_ed_check['TLAST'] = df_spec_ed_tch_sheet['Last Name'].str.lower()
     df_spec_ed_check['TPOSITION'] = 'SpecEd'
-    df_spec_ed_check['school_id'] = df_spec_ed_tch_sheet['school_id']
+    df_spec_ed_check['school_id'] = df_spec_ed_tch_sheet['school_id'].astype(str)
     ########
 
     ###Create Spec ED Teacher DataFrame###
