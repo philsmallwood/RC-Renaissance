@@ -2,12 +2,12 @@
 
 ### Import Modules ###
 import pandas as pd
-from classlink_data_processor import ClasslinkDataProcessor
-from ren_student_file_generator import ren_student_file_generator
-from ren_teacher_file_generator import ren_teacher_file_generator
-from ren_sections_enrollments_special import ren_sections_special, ren_enrollments_special
-from ren_sections_enrollments_licensed import ren_sections_licensed, ren_enrollments_licensed
-from ren_sftp_uploader import ren_sftp_uploader
+from modules.classlink_data_processor import ClasslinkDataProcessor
+from modules.ren_student_file_generator import ren_student_file_generator
+from modules.ren_teacher_file_generator import ren_teacher_file_generator
+from modules.ren_sections_enrollments_special import ren_sections_special, ren_enrollments_special
+from modules.ren_sections_enrollments_licensed import ren_sections_licensed, ren_enrollments_licensed
+from modules.ren_sftp_uploader import ren_sftp_uploader
 from os import getenv
 from dotenv import load_dotenv
 #######
