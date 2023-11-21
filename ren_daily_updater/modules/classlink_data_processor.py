@@ -1,6 +1,6 @@
 import json
 import pandas as pd
-from oneroster import OneRoster
+from modules.oneroster import OneRoster
 
 class ClasslinkDataProcessor:
     def __init__(self, api_key, api_secret):
