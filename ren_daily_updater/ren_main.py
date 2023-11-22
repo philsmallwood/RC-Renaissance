@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 
 ### Variables ###
 #Load Env File
-load_dotenv()
+load_dotenv('/config_files/env_file')
 # API Vars
 cl_api_key = getenv('cl_api_key')
 cl_api_secret = getenv('cl_api_secret')

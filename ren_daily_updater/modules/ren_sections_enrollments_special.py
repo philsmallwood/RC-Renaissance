@@ -12,7 +12,7 @@ def ren_sections_special(df_teachers):
 
     ###Variables###
     #Load Env File
-    load_dotenv()
+    load_dotenv('/config_files/env_file')
     #Course Name
     courseName = getenv('courseName')
     #Empty DataFrames
@@ -45,7 +45,7 @@ def ren_enrollments_special(df_students):
 
     ### Variables ###
     #Load Env File
-    load_dotenv()
+    load_dotenv('/config_files/env_file')
     #Course Name
     courseName = getenv('courseName')
     #Empty DataFrames

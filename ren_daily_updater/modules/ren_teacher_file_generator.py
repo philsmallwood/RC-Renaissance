@@ -12,7 +12,7 @@ def ren_teacher_file_generator(df_users):
 
     ###Variables###
     #Load Env File
-    load_dotenv()
+    load_dotenv('/config_files/env_file')
     #Schools with Ren Licenses
     licensed_schools = getenv('licensed_schools').split(",")
     #Google Variables

@@ -11,7 +11,7 @@ def ren_sftp_uploader(file_list):
 
     ###Variables###
     #Load .ENV File
-    load_dotenv()
+    load_dotenv('/config_files/env_file')
     #Renaissance SFTP Vars
     renaissance_hostname = getenv('renaissance_hostname')
     renaissance_username = getenv('renaissance_username')

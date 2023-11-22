@@ -11,7 +11,7 @@ def ren_student_file_generator(df_users, df_demographics):
 
     ###Variables###
     #Load Env File
-    load_dotenv()
+    load_dotenv('/config_files/env_file')
     #Schools with Ren Licenses
     licensed_schools = getenv('licensed_schools').split(",")
     #Empty DataFrames
