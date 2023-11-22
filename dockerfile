@@ -1,6 +1,8 @@
 ## 
 FROM python:3.12-slim
 
+RUN pip3 install --upgrade pip
+
 WORKDIR /script
 
 ARG API_TOKEN
@@ -14,10 +16,11 @@ RUN pip install --no-cache-dir \
     -r ./requirements.txt \
     --extra-index-url https://${API_TOKEN}@git.redclay.k12.de.us/api/packages/Philip.Smallwood/pypi/simple
 
+WORKDIR /config_files
 
 RUN mkdir -p ./key_file
 
-RUN mkdir -p ./config_file
+RUN mkdir -p ./env_file
 
 RUN mkdir -p ./export_files
 
