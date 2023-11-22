@@ -12,6 +12,8 @@ RUN true \
 
 RUN git clone https://${API_TOKEN}@git.redclay.k12.de.us/Philip.Smallwood/RC-Renaissance .
 
+RUN git checkout docker
+
 RUN pip install --no-cache-dir \
     -r ./requirements.txt \
     --extra-index-url https://${API_TOKEN}@git.redclay.k12.de.us/api/packages/Philip.Smallwood/pypi/simple
