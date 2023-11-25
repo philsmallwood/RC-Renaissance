@@ -1,5 +1,5 @@
 ## 
-FROM python:3.12-slim
+FROM python:3.12-slim as builder
 
 RUN pip3 install --upgrade pip
 
@@ -12,11 +12,20 @@ RUN true \
 
 RUN git clone https://${API_TOKEN}@git.redclay.k12.de.us/Philip.Smallwood/RC-Renaissance .
 
-RUN git checkout docker
+RUN git checkout docker 
 
-RUN pip install --no-cache-dir \
-    -r ./requirements.txt \
-    --extra-index-url https://${API_TOKEN}@git.redclay.k12.de.us/api/packages/Philip.Smallwood/pypi/simple
+RUN python -m venv venv
+
+RUN . venv/bin/activate && \
+    pip install --no-cache-dir \
+        -r ./requirements.txt \
+        --extra-index-url https://${API_TOKEN}@git.redclay.k12.de.us/api/packages/Philip.Smallwood/pypi/simple
+
+FROM python:3.12-slim 
+
+WORKDIR /script
+
+COPY --from=builder /script/ /script/
 
 WORKDIR /config_files
 
