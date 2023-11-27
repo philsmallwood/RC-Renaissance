@@ -1,10 +1,10 @@
-### Python Docker Runner
+### Python App Docker Image
 
 ### Stage 1 
 FROM python:3.12-slim as builder
 
 # Create App Directory
-WORKDIR /script
+WORKDIR /app
 
 # Set API Token
 ARG API_TOKEN
@@ -48,9 +48,9 @@ ENV TZ=America/New_York
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Copy App to Directory
-WORKDIR /script
+WORKDIR /app
 
-COPY --from=builder /script/ /script/
+COPY --from=builder /app/ /app/
 
 # Create Config Directory
 WORKDIR /config_files
@@ -63,8 +63,5 @@ RUN mkdir -p ./export_files
 
 # Create Cron Job Directory
 RUN mkdir -p /etc/cron.d
-
-# Set Cron Schedule
-RUN echo "25 6 * * * root /script/venv/bin/python /script/ren_daily_updater/ren_main.py" >> /etc/crontab
 
 ENTRYPOINT [ "cron", "-f" ]
