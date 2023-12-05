@@ -26,8 +26,8 @@ def ren_sections_special(df_teachers):
     df_special_sections['School_id'] = df_spec_ed_teachers['school_id']
     df_special_sections['Section_id'] = df_spec_ed_teachers['school_id'] + '-' + courseName
     df_special_sections['TID'] = df_spec_ed_teachers['TID']
-    df_special_sections['TFirst'] = df_spec_ed_teachers['TFIRST']
-    df_special_sections['TLast'] = df_spec_ed_teachers['TLAST']
+    df_special_sections['TFIRST'] = df_spec_ed_teachers['TFIRST']
+    df_special_sections['TFIRST'] = df_spec_ed_teachers['TLAST']
     df_special_sections['Course_name'] = courseName
     df_special_sections['Course_number'] = '3299999'
     df_special_sections['Subject'] = 'Other'
