@@ -13,8 +13,6 @@ def ren_teacher_file_generator(df_users):
     ###Variables###
     #Load Env File
     load_dotenv('/config_files/env_file/.env')
-    #Schools with Ren Licenses
-    licensed_schools = getenv('licensed_schools').split(",")
     #Google Variables
     google_oauth = getenv('oauth_key')
     spec_ed_teacher_sheet = getenv('spec_ed_teacher_sheet')
@@ -22,8 +20,7 @@ def ren_teacher_file_generator(df_users):
     #Empty DataFrames
     df_spec_ed_check = pd.DataFrame()
     df_temp_tch_info = pd.DataFrame()
-    df_licensed_schools = pd.DataFrame()
-    df_final = pd.DataFrame()
+    df_spec_ed_teachers = pd.DataFrame()
     #######
 
     ### Read Files to DataFrames ###
@@ -59,25 +56,18 @@ def ren_teacher_file_generator(df_users):
     ########
 
     ###Create Spec ED Teacher DataFrame###
-    df_spec_ed = pd.merge(df_temp_tch_info,
+    df_spec_ed_teachers = pd.merge(df_temp_tch_info,
                         df_spec_ed_check, 
                         how='inner')
     ########
 
-    ###Create Licensed School Teacher DataFrame###
-    for school in licensed_schools:
-        df = df_temp_tch_info.loc[(df_temp_tch_info['school_id'] == school)]
-        df_licensed_schools = pd.concat([df,df_licensed_schools])
-    ########
-
     ###Format Final DataFrame###
-    df_final = pd.concat([df_spec_ed, df_licensed_schools])
-    df_final['TFIRST'] = df_final['TFIRST'].str.capitalize()
-    df_final['TMIDDLE'] = df_final['TMIDDLE'].str.capitalize()
-    df_final['TLAST'] = df_final['TLAST'].str.capitalize()
-    df_final.drop_duplicates(inplace = True)
+    df_spec_ed_teachers['TFIRST'] = df_spec_ed_teachers['TFIRST'].str.capitalize()
+    df_spec_ed_teachers['TMIDDLE'] = df_spec_ed_teachers['TMIDDLE'].str.capitalize()
+    df_spec_ed_teachers['TLAST'] = df_spec_ed_teachers['TLAST'].str.capitalize()
+    df_spec_ed_teachers.drop_duplicates(inplace = True)
     ########
 
-    return df_final
+    return df_spec_ed_teachers
 
 							
