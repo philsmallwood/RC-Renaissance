@@ -25,8 +25,8 @@ cl_api_user_url_base = getenv('cl_api_user_url_base')
 cl_api_demograph_url_base = getenv('cl_api_demograph_url_base')
 cl_api_items = 20000
 # File Vars
-final_courses_file = getenv('final_sections_file')
-final_classes_file = getenv('')
+final_courses_file = getenv('final_courses_file')
+final_classes_file = getenv('final_classes_file')
 final_enrollments_file = getenv('final_enrollments_file')
 upload_file_list = [final_courses_file,
                     final_classes_file,
