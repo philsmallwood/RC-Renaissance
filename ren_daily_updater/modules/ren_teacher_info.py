@@ -1,8 +1,9 @@
-### Renaissance Teacher File Script
-### Script to create a file with teacher info
-### to upload to Renaissance
+### Renaissance Teacher Info Script
+### Script to create a Teacher Info DataFrame
+### to be Used to Generate Classlink Files 
+### for Freckle
 
-def ren_teacher_file_generator(df_users):
+def ren_teacher_info_generator(df_users, env_file):
     ###Import Modules###
     import pandas as pd
     from os import getenv
@@ -12,7 +13,7 @@ def ren_teacher_file_generator(df_users):
 
     ###Variables###
     #Load Env File
-    load_dotenv('/config_files/env_file/.env')
+    load_dotenv(env_file)
     #Google Variables
     google_oauth = getenv('oauth_key')
     spec_ed_teacher_sheet = getenv('spec_ed_teacher_sheet')
@@ -34,13 +35,10 @@ def ren_teacher_file_generator(df_users):
 
     ###Format Temp Dataframe###
     df_temp_tch_info['TID'] = df_teachers['sourcedId']
-    df_temp_tch_info['TSTATEID'] = ''
     df_temp_tch_info['TFIRST'] = df_teachers['givenName'].str.lower()
     df_temp_tch_info['TMIDDLE'] = df_teachers['middleName']
     df_temp_tch_info['TLAST'] = df_teachers['familyName'].str.lower()
-    df_temp_tch_info['TGENDER'] = ''
     df_temp_tch_info['TUSERNAME'] = df_teachers['email']
-    df_temp_tch_info['PASSWORD'] = getenv('fake_pass')
     df_temp_tch_info['school_id'] = df_teachers['primaryOrg']
     ########
 
