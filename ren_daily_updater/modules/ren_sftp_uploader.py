@@ -25,7 +25,7 @@ def ren_sftp_uploader(env_file, file_list):
     ###Upload Files to Classlink###
     with pysftp.Connection(host=classlink_hostname, \
                         username=classlink_username, \
-                        password=classlink_key,
+                        private_key=classlink_key,
                         cnopts=cnopts) as sftp:
         for upload_file in file_list:
             sftp.put(upload_file,upload_file.split('/')[-1])
