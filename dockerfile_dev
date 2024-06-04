@@ -19,7 +19,7 @@ RUN true \
 RUN git clone https://${API_TOKEN}@git.redclay.k12.de.us/Philip.Smallwood/RC-Renaissance .
 
 # Checkout Repo
-RUN git checkout docker 
+RUN git checkout dev 
 
 # Create Python Virtualenv
 RUN python -m venv venv
