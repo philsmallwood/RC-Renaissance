@@ -5,7 +5,6 @@ from modules.oneroster import OneRoster
 class ClasslinkDataProcessor:
     def __init__(self, api_key, api_secret):
         self.oneroster_connection = OneRoster(api_key, api_secret)
-
     def _get_data(self, url):
         result = self.oneroster_connection.make_roster_request(url)
         return json.loads(result['response'])
@@ -18,7 +17,10 @@ class ClasslinkDataProcessor:
         df_data = pd.concat(user_data_frames)
         df_data.reset_index(drop=True, inplace=True)
         try:
-            df_data = df_data.join(pd.json_normalize(df_data['metadata']))
+            df_data = df_data.join(pd.json_normalize(df_data['metadata']).add_prefix('metadata.'))
+            df_data = df_data.join(pd.json_normalize(df_data['orgs']).drop(\
+                [1,2,3,4,5,6], axis='columns'))
+            df_data = df_data.join(pd.json_normalize(df_data[0]).add_prefix('org.'))
             return df_data
         except KeyError:
             return df_data
