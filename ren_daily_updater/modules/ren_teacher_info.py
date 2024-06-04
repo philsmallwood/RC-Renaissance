@@ -55,7 +55,7 @@ def ren_teacher_info_generator(df_users, env_file):
 
     ###Create Spec ED Teacher DataFrame###
     df_spec_ed_teachers = pd.merge(df_temp_tch_info,
-                        df_spec_ed_check, 
+                        df_spec_ed_check, on=['TFIRST','TLAST'],
                         how='inner')
     ########
 
