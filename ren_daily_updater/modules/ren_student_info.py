@@ -31,7 +31,7 @@ def ren_student_info_generator(df_users, df_demographics):
         df_students['spec_ed'] == 'True'].copy()
     # Add to Final DataFrame
     df_final['SID'] = df_spec_ed_students['sourcedId']
-    df_final['school_id'] = df_spec_ed_students['primaryOrg']
+    df_final['school_id'] = df_spec_ed_students['org.sourcedId']
     # Cleanup 
     df_final.drop_duplicates(inplace=True)
     #######
