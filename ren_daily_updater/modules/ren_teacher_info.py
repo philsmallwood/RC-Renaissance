@@ -39,7 +39,7 @@ def ren_teacher_info_generator(df_users, env_file):
     df_temp_tch_info['TMIDDLE'] = df_teachers['middleName']
     df_temp_tch_info['TLAST'] = df_teachers['familyName'].str.lower()
     df_temp_tch_info['TUSERNAME'] = df_teachers['email']
-    df_temp_tch_info['school_id'] = df_teachers['primaryOrg']
+    df_temp_tch_info['school_id'] = df_teachers['org.sourcedId']
     ########
 
     ###Get Spec Ed Teacher List from Google Sheet###
@@ -50,12 +50,11 @@ def ren_teacher_info_generator(df_users, env_file):
     df_spec_ed_check['TFIRST'] = df_spec_ed_tch_sheet['First Name'].str.lower()
     df_spec_ed_check['TLAST'] = df_spec_ed_tch_sheet['Last Name'].str.lower()
     df_spec_ed_check['TPOSITION'] = 'SpecEd'
-    df_spec_ed_check['school_id'] = df_spec_ed_tch_sheet['school_id'].astype(str)
     ########
 
     ###Create Spec ED Teacher DataFrame###
     df_spec_ed_teachers = pd.merge(df_temp_tch_info,
-                        df_spec_ed_check, 
+                        df_spec_ed_check, on=['TFIRST','TLAST'],
                         how='inner')
     ########
 
