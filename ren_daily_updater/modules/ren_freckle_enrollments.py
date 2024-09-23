@@ -43,8 +43,8 @@ def ren_freckle_enrollments_generator(df_students,
     df_teacher_enroll['userSourcedId'] = df_teachers['TID']
     df_teacher_enroll['role'] = 'teacher'
     df_teacher_enroll['primary'] = ''
-    df_teacher_enroll['beginDate'] = '2023-07-03'
-    df_teacher_enroll['endDate'] = '2024-06-11'
+    df_teacher_enroll['beginDate'] = '2024-07-03'
+    df_teacher_enroll['endDate'] = '2025-06-11'
     #######
 
     ### Combine Teacher and Student Enrollments ###
