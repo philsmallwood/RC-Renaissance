@@ -19,7 +19,7 @@ class ClasslinkDataProcessor:
         try:
             df_data = df_data.join(pd.json_normalize(df_data['metadata']).add_prefix('metadata.'))
             df_data = df_data.join(pd.json_normalize(df_data['orgs']).drop(\
-                [1,2,3,4,5,6], axis='columns'))
+                [1,2,3,4,5], axis='columns'))
             df_data = df_data.join(pd.json_normalize(df_data[0]).add_prefix('org.'))
             return df_data
         except KeyError:
