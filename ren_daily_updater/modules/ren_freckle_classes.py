@@ -16,7 +16,7 @@ def ren_freckle_class_generator(env_file):
     # Classlink Vars
     course_title = getenv('course_title')
     freckle_course_code = getenv('freckle_course_code')
-    term_sourced_id = getenv('term_sourced_id')
+    term_sourced_ids = getenv('term_sourced_ids')
     # Buildings
     building_list = getenv('building_list').split(",")
     #Empty DataFrames
@@ -36,7 +36,7 @@ def ren_freckle_class_generator(env_file):
         temp_dict['classType'] = 'scheduled'
         temp_dict['location'] = ''
         temp_dict['schoolSourcedId'] = building
-        temp_dict['termSourcedIds'] = term_sourced_id
+        temp_dict['termSourcedIds'] = term_sourced_ids
         temp_dict['subjects'] = 'Other'
         temp_dict['subjectCodes'] = ''
         temp_dict['periods'] = ''
