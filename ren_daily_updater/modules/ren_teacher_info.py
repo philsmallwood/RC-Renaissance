@@ -8,7 +8,7 @@ def ren_teacher_info_generator(df_users, env_file):
     import pandas as pd
     from os import getenv
     from dotenv import load_dotenv
-    from rc_google_py import download_gsheet_to_df
+    from download_gsheet_to_df import download_gsheet_to_df
     #######
 
     ###Variables###
