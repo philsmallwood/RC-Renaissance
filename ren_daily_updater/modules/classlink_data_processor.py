@@ -17,10 +17,7 @@ class ClasslinkDataProcessor:
         df_data = pd.concat(user_data_frames)
         df_data.reset_index(drop=True, inplace=True)
         try:
-            df_data = df_data.join(pd.json_normalize(df_data['metadata']).add_prefix('metadata.'))
-            df_data = df_data.join(pd.json_normalize(df_data['orgs']).drop(\
-                [1,2,3,4,5], axis='columns'))
-            df_data = df_data.join(pd.json_normalize(df_data[0]).add_prefix('org.'))
+            df_data = df_data.join(pd.json_normalize(df_data['metadata']))
             return df_data
         except KeyError:
             return df_data
