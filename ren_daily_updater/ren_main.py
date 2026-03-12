@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 
 ### Variables ###
 #Env File
-env_file = '/config_files/env_file/.env'
+env_file = '.env'
 #Load Env File
 load_dotenv(env_file)
 # API Vars
