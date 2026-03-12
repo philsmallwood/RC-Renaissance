@@ -2,4 +2,5 @@
 pandas
 pysftp
 python-dotenv
-rc-google-py
+gspread
+google-auth
