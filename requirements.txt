@@ -1,6 +1,6 @@
 #Pip requirements for RC-Renaissance
 pandas
-pysftp
+paramiko
 python-dotenv
 gspread
 google-auth
