@@ -90,6 +90,7 @@ except Exception as e:
     logger.error(e)
     raise
 
+### Create Files ###
 try:
     ### Student Info ###
     df_students = ren_student_info_generator(
@@ -122,7 +123,7 @@ except Exception as e:
     logger.error("Files not created")
     logger.error(e)
     raise
-
+#########################
 
 ### Upload Files to Classlink ###
 # Get List of Files to Upload
