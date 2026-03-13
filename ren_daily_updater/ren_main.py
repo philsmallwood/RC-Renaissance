@@ -43,7 +43,7 @@ ren_key = getenv('ren_key')
 # Log File
 current_date = datetime.date.today()
 date_str = current_date.strftime('%m-%d-%Y')
-log_path = getenv('log_path')
+log_path = getenv('log_file_path')
 log_file = f"{log_path}renaissance-updater-{date_str}.log"
 # Email Alert Vars
 # Email Alert Vars
