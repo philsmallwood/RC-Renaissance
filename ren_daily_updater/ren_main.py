@@ -8,7 +8,7 @@ from modules.ren_teacher_info import ren_teacher_info_generator
 from modules.ren_freckle_course import ren_freckle_course_generator
 from modules.ren_freckle_classes import ren_freckle_class_generator
 from modules.ren_freckle_enrollments import ren_freckle_enrollments_generator
-from modules.ren_sftp_uploader import ren_sftp_uploader
+from modules.ren_sftp_uploader import sftp_upload
 from os import getenv
 from dotenv import load_dotenv
 #######
@@ -25,12 +25,17 @@ cl_api_user_url_base = getenv('cl_api_user_url_base')
 cl_api_demograph_url_base = getenv('cl_api_demograph_url_base')
 cl_api_items = 20000
 # File Vars
+ren_file_path = getenv('ren_file_path')
 final_courses_file = getenv('final_courses_file')
 final_classes_file = getenv('final_classes_file')
 final_enrollments_file = getenv('final_enrollments_file')
 upload_file_list = [final_courses_file,
                     final_classes_file,
                     final_enrollments_file]
+# SFTP Vars
+ren_hostname = getenv('ren_hostname')
+ren_username = getenv('ren_username')
+ren_key = getenv('ren_key')
 #######
 
 ### Create Classlink Connection Object ###
@@ -86,6 +91,24 @@ df_classes.to_csv(final_classes_file, index=False)
 df_enrollments.to_csv(final_enrollments_file, index=False)
 #######
 
+### Upload Files to Classlink ###
+# Get List of Files to Upload
+upload_files = [f for f in ren_file_path.iterdir() if f.is_file()]
+# Upload Files
+try:
+    for upfile in upload_files:
+        sftp_upload(ren_hostname,
+                        ren_username,
+                        ren_key,
+                        f"{ren_file_path}/{upfile.name}",
+                        f"{upfile.name}")
+        #logger.info(f"Uploaded {upfile.name} to FinalSite.")
+except Exception as e:
+    #logger.error("Files Not Uploaded to Classlink")
+    #logger.error(e)
+    raise
+#######################
+
 ### Send to Renaisance ###
-ren_sftp_uploader(env_file, upload_file_list)
+sftp_upload(env_file, upload_file_list)
 #######
