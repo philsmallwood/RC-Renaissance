@@ -5,7 +5,6 @@ from modules.oneroster import OneRoster
 class ClasslinkDataProcessor:
     def __init__(self, api_key, api_secret):
         self.oneroster_connection = OneRoster(api_key, api_secret)
-
     def _get_data(self, url):
         result = self.oneroster_connection.make_roster_request(url)
         return json.loads(result['response'])
@@ -18,9 +17,7 @@ class ClasslinkDataProcessor:
         df_data = pd.concat(user_data_frames)
         df_data.reset_index(drop=True, inplace=True)
         try:
-            #df_data = df_data.join(pd.json_normalize(df_data['metadata']))
-            df_data = df_data.join(pd.DataFrame(df_data['orgs'].tolist()).add_prefix('orgs'))
-            df_data = df_data.join(pd.json_normalize(df_data['orgs0']).add_prefix('org.'))
+            df_data = df_data.join(pd.json_normalize(df_data['metadata']))
             return df_data
         except KeyError:
             return df_data
@@ -48,8 +45,6 @@ class ClasslinkDataProcessor:
         try:
             df_data = df_data.join(pd.json_normalize(df_data['school']).add_prefix('school.'))
             df_data = df_data.join(pd.json_normalize(df_data['course']).add_prefix('course.'))
-            df_data = df_data.join(pd.DataFrame(df_data['terms'].tolist()).add_prefix('term'))
-            df_data = df_data.join(pd.json_normalize(df_data['term0']).add_prefix('terms.'))
             return df_data
         except KeyError:
             return df_data

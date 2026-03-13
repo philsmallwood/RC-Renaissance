@@ -3,30 +3,24 @@
 ### Classlink SFTP server for 
 ### Created Renaissance Classes
 
-def ren_sftp_uploader(env_file, file_list):
-    ###Import Modules###
-    import pysftp
-    from os import getenv
-    from dotenv import load_dotenv
-    #######
-
-    ###Variables###
-    #Load .ENV File
-    load_dotenv(env_file)
-    #Classlink SFTP Vars
-    classlink_hostname = getenv('classlink_hostname')
-    classlink_username = getenv('classlink_username')
-    classlink_key = getenv('classlink_key')
-    #SFTP Config
-    cnopts = pysftp.CnOpts()
-    cnopts.hostkeys = None
-    #######
-
-    ###Upload Files to Classlink###
-    with pysftp.Connection(host=classlink_hostname, \
-                        username=classlink_username, \
-                        private_key=classlink_key,
-                        cnopts=cnopts) as sftp:
-        for upload_file in file_list:
-            sftp.put(upload_file,upload_file.split('/')[-1])
-    #######
+def sftp_upload(hostname, username, key, local_path, remote_path, port=22):
+    ### Import Module ###
+    import paramiko
+    ssh_client = paramiko.SSHClient()
+    ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    try:
+        # Use key_filename instead of pkey
+        # This automatically handles RSA, Ed25519, and the OpenSSH header
+        ssh_client.connect(
+            hostname=hostname,
+            port=port,
+            username=username,
+            key_filename=key
+        )
+        with ssh_client.open_sftp() as sftp:
+            sftp.put(local_path, remote_path)
+        print(f"Successfully uploaded {local_path} to {remote_path}")
+    except Exception as e:
+        print(f"Connection/Upload failed: {e}")
+    finally:
+        ssh_client.close()
